@@ -248,15 +248,15 @@ ifeq ($(DO_CHECKS), 1)
   ## done with check for conflicting options
 
   ifeq (icc,$(findstring icc,$(CC)))
-    # CFLAGS += -xhost -opt-prefetch -opt-prefetch-distance=16 #-vec-report6
-    # ifeq (USE_OMP,$(findstring USE_OMP,$(OPT)))
-    #   CFLAGS += -openmp
-    #   CLINK  += -openmp
-    ## changed for stampede 2 architecture
-    CFLAGS += -xCORE-AVX2 -axCORE-AVX512,MIC-AVX512 -opt-prefetch -opt-prefetch-distance=16 #-vec-report6
+    CFLAGS += -xhost -opt-prefetch -opt-prefetch-distance=16 #-vec-report6
     ifeq (USE_OMP,$(findstring USE_OMP,$(OPT)))
-      CFLAGS += -qopenmp
-      CLINK  += -qopenmp
+      CFLAGS += -openmp
+      CLINK  += -openmp
+    ## changed for stampede 2 architecture
+    # CFLAGS += -xCORE-AVX2 -axCORE-AVX512,MIC-AVX512 -opt-prefetch -opt-prefetch-distance=16 #-vec-report6
+    # ifeq (USE_OMP,$(findstring USE_OMP,$(OPT)))
+    #   CFLAGS += -qopenmp
+    #   CLINK  += -qopenmp
     endif ##openmp with icc
   else ## not icc -> gcc or clang follow
 
