@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
     char *binfile=NULL;
     DOUBLE pimax;
     char *weight_method_str=NULL;
-    
+
     weight_method_t weight_method = NONE;
     int num_weights = 0;
 
@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
             fprintf(stderr,"\t\t %s = `?'\n",argnames[i-1]);
         return EXIT_FAILURE;
     }
-  
+
     /* Validate optional arguments */
     int noptargs_given = argc - (nargs + 1);
     if(noptargs_given != 0 && noptargs_given != 3){
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
       return EXIT_FAILURE;
     }
 #endif
-    
+
     if(noptargs_given >= 3){
        weight_method_str = argv[nargs + 1];
        int wstatus = get_weight_method_by_name(weight_method_str, &weight_method);
@@ -138,12 +138,12 @@ int main(int argc, char *argv[])
          return EXIT_FAILURE;
        }
        num_weights = get_num_weights_by_method(weight_method);
-      
+
        weights_file = argv[nargs + 2];
        weights_fileformat = argv[nargs + 3];
     }
 
-
+#ifndef SILENT
     fprintf(stderr,"Running `%s' with the parameters \n",argv[0]);
     fprintf(stderr,"\n\t\t -------------------------------------\n");
     for(int i=1;i<argc;i++) {
@@ -156,7 +156,7 @@ int main(int argc, char *argv[])
         }
     }
     fprintf(stderr,"\t\t -------------------------------------\n");
-
+#endif
 
     gettimeofday(&t0,NULL);
     /*---Read-data1-file----------------------------------*/
@@ -177,7 +177,7 @@ int main(int argc, char *argv[])
         int64_t wND1 = read_columns_into_array(weights_file, weights_fileformat, sizeof(DOUBLE), num_weights, (void **) weights1);
         gettimeofday(&t1,NULL);
         read_time += ADD_DIFF_TIME(t0,t1);
-      
+
         if(wND1 != ND1){
           fprintf(stderr, "Error: read %"PRId64" lines from %s, but read %"PRId64" from %s\n", wND1, weights_file, ND1, file);
           return EXIT_FAILURE;
@@ -195,7 +195,7 @@ int main(int argc, char *argv[])
     for(int w = 0; w < num_weights; w++){
         extra.weights0.weights[w] = (void *) weights1[w];
     }
-    
+
     /* If you want to change the bin refine factors */
     /* const int bf[] = {2, 2, 1}; */
     /* set_bin_refine_factors(&options, bf); */
@@ -216,7 +216,7 @@ int main(int argc, char *argv[])
     if(status != EXIT_SUCCESS) {
         return status;
     }
-    
+
     gettimeofday(&t1,NULL);
     double pair_time = ADD_DIFF_TIME(t0,t1);
 
@@ -235,13 +235,15 @@ int main(int argc, char *argv[])
         print_cell_timings(&options);
         free_cell_timings(&options);
     }
-    
+
     //free the memory in the results struct
     free_results_wp(&results);
 
     gettimeofday(&t_end,NULL);
+#ifndef SILENT
     fprintf(stderr,"wp> Done -  ND1=%12"PRId64". Time taken = %6.2lf seconds. read-in time = %6.2lf seconds pair-counting time = %6.2lf sec\n",
             ND1,ADD_DIFF_TIME(t_start,t_end),read_time,pair_time);
+#endif
     return EXIT_SUCCESS;
 }
 

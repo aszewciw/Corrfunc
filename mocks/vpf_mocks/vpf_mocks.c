@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
     random_file_format=argv[9];
     centers_file=argv[10];
     cosmology = atoi(argv[11]);
-
+#ifndef SILENT
     fprintf(stderr,"Running `%s' with the parameters \n",argv[0]);
     fprintf(stderr,"\n\t\t -------------------------------------\n");
     for(int i=1;i<argc;i++) {
@@ -99,6 +99,7 @@ int main(int argc, char *argv[])
         }
     }
     fprintf(stderr,"\t\t -------------------------------------\n");
+#endif
     XRETURN(rmax > 0, EXIT_FAILURE, "rmax=%lf must be > 0\n",rmax);
     XRETURN(nbin > 0, EXIT_FAILURE,"Number of bins=%d must be > 0\n",nbin);
     XRETURN(nc > 0,EXIT_FAILURE,"Number of spheres=%d must be > 0\n",nc);
@@ -124,20 +125,24 @@ int main(int argc, char *argv[])
         num_centers_in_file = 0;
         need_randoms = 1;
     }
+#ifndef SILENT
     fprintf(stderr,"vpf_mocks> found %"PRId64" centers (need %d centers) - need randoms = %d\n",num_centers_in_file,nc,need_randoms);
-
+#endif
     gettimeofday(&t0,NULL);
     /*---Read-galaxy-data1-file----------------------------------*/
     Ngal=read_positions(galaxy_file,galaxy_file_format, sizeof(DOUBLE), 3, &ra, &dec, &cz);
     gettimeofday(&t1,NULL);
+#ifndef SILENT
     fprintf(stderr,"vpf_mocks> Ngal = %"PRId64". Time to read-in galaxies=%6.2lf sec\n",Ngal,ADD_DIFF_TIME(t0,t1)) ;
-
+#endif
     /*---Read-random-file---------------------------------*/
     if(need_randoms == 1) {
         gettimeofday(&t0,NULL);
         Nran = read_positions(random_file,random_file_format, sizeof(DOUBLE), 3, &xran, &yran, &zran);
         gettimeofday(&t1,NULL);
+#ifndef SILENT
         fprintf(stderr,"vpf_mocks> Nrandoms = %"PRId64". Time to read-in randoms = %6.2lf sec\n",Nran,ADD_DIFF_TIME(t0,t1)) ;
+#endif
     }
 
     /*---Expected-number-of-randoms-in-sphere-------------*/
@@ -145,7 +150,9 @@ int main(int argc, char *argv[])
     if(need_randoms == 1) {
         assert(volume > 0 && "Mock volume must be > 0");
         double Nexpected = (double)Nran*(4.0*M_PI*(rmax*rmax*rmax)/3.)/volume ;
+#ifndef SILENT
         fprintf(stderr,"vpf_mocks> Expected number of randoms in sphere = %lf\n",Nexpected) ;
+#endif
         threshold_neighbors = (int) (Nexpected - sqrt(Nexpected));//allow 1-sigma deviation. Conservative
     } else {
         threshold_neighbors = 1;//dummy value -> just to ensure that the check does not compare with uninitialized values
@@ -184,8 +191,9 @@ int main(int argc, char *argv[])
         fprintf(stdout,"\n");
     }
     gettimeofday(&t1,NULL);
+#ifndef SILENT
     fprintf(stderr,"vpf_mocks> Done. Ngal = %"PRId64". Time taken = %6.2lf sec\n",Ngal,ADD_DIFF_TIME(tstart,t1));
-
+#endif
     free_results_countspheres_mocks(&results);
     return EXIT_SUCCESS ;
 }
@@ -213,8 +221,8 @@ void Printhelp(void)
     fprintf(stderr,"CZ column contains co-moving distance = True\n");
 #else
     fprintf(stderr,"CZ column contains co-moving distance = False\n");
-#endif    
-    
+#endif
+
 #ifdef DOUBLE_PREC
     fprintf(stderr,"Precision = double\n");
 #else
