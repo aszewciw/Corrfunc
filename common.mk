@@ -253,7 +253,7 @@ ifeq ($(DO_CHECKS), 1)
     #   CFLAGS += -openmp
     #   CLINK  += -openmp
     ## changed for stampede 2 architecture
-    CFLAGS += -xCORE-AVX2 -axCORE-AVX512,MIC-AVX512 -opt-prefetch -opt-prefetch-distance=16 #-vec-report6
+    CFLAGS += -xCORE-AVX2 -axCORE-AVX512,MIC-AVX512 -qopt-prefetch -qopt-prefetch-distance=16 #-vec-report6
     ifeq (USE_OMP,$(findstring USE_OMP,$(OPT)))
       CFLAGS += -qopenmp
       CLINK  += -qopenmp
