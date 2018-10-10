@@ -14,6 +14,5 @@ OPT += -DDOUBLE_PREC
 #### If input distances are already in co-moving (relevant for DDrppi_mocks and vpf)
 #OPT += -DCOMOVING_DIST
 
-
-
-
+#### Suppress progress bar
+OPT += -DSILENT
