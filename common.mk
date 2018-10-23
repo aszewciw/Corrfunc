@@ -36,6 +36,21 @@ PYTHON_CONFIG_EXE:=
 ## Set OpenMP for both theory and mocks
 # OPT += -DUSE_OMP
 
+HNAME:=$(shell hostname)
+
+ifeq ($(HNAME),login1.stampede2.tacc.utexas.edu)
+SYSTYPE="TACC2"
+endif
+ifeq ($(HNAME),login2.stampede2.tacc.utexas.edu)
+SYSTYPE="TACC2"
+endif
+ifeq ($(HNAME),login3.stampede2.tacc.utexas.edu)
+SYSTYPE="TACC2"
+endif
+ifeq ($(HNAME),login4.stampede2.tacc.utexas.edu)
+SYSTYPE="TACC2"
+endif
+
 
 ### You should NOT edit below this line
 DISTNAME:=Corrfunc
@@ -248,16 +263,19 @@ ifeq ($(DO_CHECKS), 1)
   ## done with check for conflicting options
 
   ifeq (icc,$(findstring icc,$(CC)))
-    # CFLAGS += -xhost -opt-prefetch -opt-prefetch-distance=16 #-vec-report6
-    # ifeq (USE_OMP,$(findstring USE_OMP,$(OPT)))
-    #   CFLAGS += -openmp
-    #   CLINK  += -openmp
-    ## changed for stampede 2 architecture
-    CFLAGS += -xCORE-AVX2 -axCORE-AVX512,MIC-AVX512 -qopt-prefetch -qopt-prefetch-distance=16 #-vec-report6
-    ifeq (USE_OMP,$(findstring USE_OMP,$(OPT)))
-      CFLAGS += -qopenmp
-      CLINK  += -qopenmp
-    endif ##openmp with icc
+    ifeq ($(SYSTYPE),"TACC2")
+      CFLAGS += -xCORE-AVX2 -axCORE-AVX512,MIC-AVX512 -qopt-prefetch -qopt-prefetch-distance=16 #-vec-report6
+      ifeq (USE_OMP,$(findstring USE_OMP,$(OPT)))
+        CFLAGS += -qopenmp
+        CLINK  += -qopenmp
+      endif ##openmp with icc
+    else
+      CFLAGS += -xhost -opt-prefetch -opt-prefetch-distance=16 #-vec-report6
+      ifeq (USE_OMP,$(findstring USE_OMP,$(OPT)))
+        CFLAGS += -openmp
+        CLINK  += -openmp
+      endif ##
+    endif ## systype is tacc
   else ## not icc -> gcc or clang follow
 
     ## Warning that w(theta) with OUTPUT_THETAAVG is very slow without icc
