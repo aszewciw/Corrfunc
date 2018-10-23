@@ -16,3 +16,6 @@ OPT += -DDOUBLE_PREC
 
 #### Suppress progress bar
 OPT += -DSILENT
+
+#### Use openmp
+#OPT += -DUSE_OMP
