@@ -270,10 +270,10 @@ ifeq ($(DO_CHECKS), 1)
         CLINK  += -qopenmp
       endif ##openmp with icc
     else
-      CFLAGS += -xhost -opt-prefetch -opt-prefetch-distance=16 #-vec-report6
+      CFLAGS += -xhost -qopt-prefetch -qopt-prefetch-distance=16 #-vec-report6
       ifeq (USE_OMP,$(findstring USE_OMP,$(OPT)))
-        CFLAGS += -openmp
-        CLINK  += -openmp
+        CFLAGS += -qopenmp
+        CLINK  += -qopenmp
       endif ##
     endif ## systype is tacc
   else ## not icc -> gcc or clang follow
