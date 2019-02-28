@@ -38,7 +38,8 @@ else
 endif
 
 all: $(TARGET) $(LIBOBJS) $(TARGETOBJS) $(TARGETSRC) $(ROOT_DIR)/theory.options $(ROOT_DIR)/common.mk Makefile
-    cp $(TARGET) $(GC_DIR)/$(GC_BIN)
+  cp $(TARGET) $(GC_DIR)/$(GC_BIN)
+
 libs: lib
 lib:  $(LIBRARY)
 install: $(INSTALL_BIN_DIR)/$(TARGET) $(INSTALL_LIB_DIR)/$(LIBRARY) $(INSTALL_HEADERS_DIR)/$(LIBRARY_HEADERS)
