@@ -32,13 +32,13 @@ TARGETOBJS  := $(TARGETSRC:.c=.o)
 LIBOBJS := $(LIBSRC:.c=.o)
 
 ifeq (PERIODIC,$(findstring PERIODIC,$(OPT)))
-  GC_BIN=DD
+	GC_BIN=DD
 else
-  GC_BIN=DD_nonperiodic
+	GC_BIN=DD_nonperiodic
 endif
 
 all: $(TARGET) $(LIBOBJS) $(TARGETOBJS) $(TARGETSRC) $(ROOT_DIR)/theory.options $(ROOT_DIR)/common.mk Makefile
-  cp $(TARGET) $(GC_DIR)/$(GC_BIN)
+	cp $(TARGET) $(GC_DIR)/$(GC_BIN)
 
 libs: lib
 lib:  $(LIBRARY)
