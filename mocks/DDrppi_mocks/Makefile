@@ -4,7 +4,7 @@ INSTALL_LIB_DIR := $(ROOT_DIR)/lib
 INSTALL_BIN_DIR := $(ROOT_DIR)/bin
 UTILS_DIR := $(ROOT_DIR)/utils
 IO_DIR := $(ROOT_DIR)/io
-GC_DIR := ../../../codes/bin/
+GC_DIR := ../../../codes/bin
 
 include $(ROOT_DIR)/mocks.options $(ROOT_DIR)/common.mk
 
