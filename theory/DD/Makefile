@@ -31,12 +31,6 @@ INCL   := countpairs_kernels_float.c countpairs_kernels_double.c countpairs_kern
 TARGETOBJS  := $(TARGETSRC:.c=.o)
 LIBOBJS := $(LIBSRC:.c=.o)
 
-ifeq (PERIODIC,$(findstring PERIODIC,$(OPT)))
-  GC_BIN=DD
-else
-  GC_BIN=DD_nonperiodic
-endif
-
 all: $(TARGET) $(LIBOBJS) $(TARGETOBJS) $(TARGETSRC) $(ROOT_DIR)/theory.options $(ROOT_DIR)/common.mk Makefile
   cp $(TARGET) $(GC_DIR)
 
