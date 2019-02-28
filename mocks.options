@@ -18,4 +18,4 @@ OPT += -DLINK_IN_RA #link_in_dec must be enabled before link_in_ra
 # OPT += -DSILENT
 
 #### Use openmp
-#OPT += -DUSE_OMP
+OPT += -DUSE_OMP
