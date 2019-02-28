@@ -8,6 +8,8 @@ INSTALL_BIN_DIR := $(ROOT_DIR)/bin
 UTILS_DIR := $(ROOT_DIR)/utils
 IO_DIR := $(ROOT_DIR)/io
 
+GC_DIR := ../../../codes/bin
+
 LIBNAME := countpairs
 LIBRARY := lib$(LIBNAME).a
 LIBSRC  := countpairs.c countpairs_impl_double.c countpairs_impl_float.c \
@@ -30,7 +32,15 @@ INCL   := countpairs_kernels_float.c countpairs_kernels_double.c countpairs_kern
 TARGETOBJS  := $(TARGETSRC:.c=.o)
 LIBOBJS := $(LIBSRC:.c=.o)
 
-all: $(TARGET) $(LIBOBJS) $(TARGETOBJS) $(TARGETSRC) $(ROOT_DIR)/theory.options $(ROOT_DIR)/common.mk Makefile 
+ifeq (PERIODIC,$(findstring PERIODIC,$(OPT)))
+  GC_BIN := DD
+else
+  GC_BIN := DD_nonperiodic
+endif
+
+all: $(TARGET) $(LIBOBJS) $(TARGETOBJS) $(TARGETSRC) $(ROOT_DIR)/theory.options $(ROOT_DIR)/common.mk Makefile
+  cp $(TARGET) $(GC_DIR)/$(GC_BIN)
+
 libs: lib
 lib:  $(LIBRARY)
 install: $(INSTALL_BIN_DIR)/$(TARGET) $(INSTALL_LIB_DIR)/$(LIBRARY) $(INSTALL_HEADERS_DIR)/$(LIBRARY_HEADERS)
@@ -44,11 +54,11 @@ clean:
 	$(RM) -R *.dSYM
 
 distclean:clean
-	cd $(INSTALL_HEADERS_DIR) && $(RM) $(LIBRARY_HEADERS) 
+	cd $(INSTALL_HEADERS_DIR) && $(RM) $(LIBRARY_HEADERS)
 	cd $(INSTALL_LIB_DIR) && $(RM) $(LIBRARY)
 	cd $(INSTALL_BIN_DIR) && $(RM) $(TARGET)
 
-tests: 
+tests:
 	$(MAKE) -C ../tests DD
 
 include $(ROOT_DIR)/rules.mk
