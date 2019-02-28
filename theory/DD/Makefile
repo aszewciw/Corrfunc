@@ -32,8 +32,6 @@ TARGETOBJS  := $(TARGETSRC:.c=.o)
 LIBOBJS := $(LIBSRC:.c=.o)
 
 all: $(TARGET) $(LIBOBJS) $(TARGETOBJS) $(TARGETSRC) $(ROOT_DIR)/theory.options $(ROOT_DIR)/common.mk Makefile
-  cp $(TARGET) $(GC_DIR)
-
 
 libs: lib
 lib:  $(LIBRARY)
