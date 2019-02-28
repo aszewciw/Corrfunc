@@ -7,7 +7,7 @@ OPT = -DPERIODIC
 #OPT += -DDOUBLE_PREC
 
 #### Suppress progress bar
-OPT += -DSILENT
+# OPT += -DSILENT
 
 #### Use openmp
-#OPT += -DUSE_OMP
+OPT += -DUSE_OMP
