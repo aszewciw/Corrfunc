@@ -69,7 +69,6 @@ ifneq ($(filter $(CLEAN_CMDS),$(MAKECMDGOALS)),)
   DO_CHECKS := 0
 endif
 
-
 ## Only set everything if the command is not "make clean" (or related to "make clean")
 ifeq ($(DO_CHECKS), 1)
   UNAME := $(shell uname)
