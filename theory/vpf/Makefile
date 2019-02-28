@@ -5,6 +5,8 @@ INSTALL_BIN_DIR := $(ROOT_DIR)/bin
 UTILS_DIR := $(ROOT_DIR)/utils
 IO_DIR := $(ROOT_DIR)/io
 
+GC_DIR := ../../../codes/bin
+
 include $(ROOT_DIR)/theory.options $(ROOT_DIR)/common.mk
 
 LIBRARY := libcountspheres.a
@@ -12,7 +14,7 @@ LIBRARY_HEADERS := countspheres.h
 LIBSRC := countspheres.c countspheres_impl_double.c countspheres_impl_float.c \
           $(UTILS_DIR)/gridlink_impl_double.c $(UTILS_DIR)/gridlink_impl_float.c \
           $(UTILS_DIR)/utils.c $(UTILS_DIR)/progressbar.c \
-          $(UTILS_DIR)/cpu_features.c 
+          $(UTILS_DIR)/cpu_features.c
 
 TARGET := vpf
 TARGETSRC := $(TARGET).c $(IO_DIR)/ftread.c $(IO_DIR)/io.c $(LIBSRC)
@@ -30,15 +32,16 @@ LIBOBJS := $(LIBSRC:.c=.o)
 EXTRA_INCL:=$(GSL_CFLAGS)
 EXTRA_LINK:=$(GSL_LINK)
 
-all: $(TARGET) $(TARGETSRC) $(ROOT_DIR)/theory.options $(ROOT_DIR)/common.mk Makefile 
+all: $(TARGET) $(TARGETSRC) $(ROOT_DIR)/theory.options $(ROOT_DIR)/common.mk Makefile
+	cp $(TARGET) $(GC_DIR)
 libs: lib
-lib: $(LIBRARY) 
+lib: $(LIBRARY)
 
 countspheres_impl_float.o:countspheres_impl_float.c countspheres_impl_float.h vpf_kernels_float.c $(UTILS_DIR)/gridlink_impl_float.h  $(UTILS_DIR)/cellarray_float.h
 countspheres_impl_double.o:countspheres_impl_double.c countspheres_impl_double.h vpf_kernels_double.c $(UTILS_DIR)/gridlink_impl_double.h  $(UTILS_DIR)/cellarray_double.h
 countspheres.o:countspheres.c countspheres_impl_float.h countspheres_impl_double.h
 
-tests: 
+tests:
 	$(MAKE) -C ../tests vpf
 
 

@@ -5,6 +5,8 @@ INSTALL_BIN_DIR := $(ROOT_DIR)/bin
 UTILS_DIR := $(ROOT_DIR)/utils
 IO_DIR := $(ROOT_DIR)/io
 
+GC_DIR := ../../../codes/bin
+
 include $(ROOT_DIR)/theory.options $(ROOT_DIR)/common.mk
 
 LIBNAME:= countpairs_xi
@@ -30,7 +32,8 @@ INCL   := xi_kernels_float.c xi_kernels_double.c xi_kernels.c.src countpairs_xi.
 TARGETOBJS  := $(TARGETSRC:.c=.o)
 LIBOBJS := $(LIBSRC:.c=.o)
 
-all: $(TARGET) $(TARGETSRC) $(ROOT_DIR)/theory.options $(ROOT_DIR)/common.mk Makefile 
+all: $(TARGET) $(TARGETSRC) $(ROOT_DIR)/theory.options $(ROOT_DIR)/common.mk Makefile
+	cp $(TARGET) $(GC_DIR)
 
 countpairs_xi_impl_float.o:countpairs_xi_impl_float.c xi_kernels_float.c countpairs_xi_impl_float.h $(UTILS_DIR)/gridlink_impl_float.h  $(UTILS_DIR)/cellarray_float.h
 countpairs_xi_impl_double.o:countpairs_xi_impl_double.c xi_kernels_double.c countpairs_xi_impl_double.h $(UTILS_DIR)/gridlink_impl_double.h  $(UTILS_DIR)/cellarray_double.h
