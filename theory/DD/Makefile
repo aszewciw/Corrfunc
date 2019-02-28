@@ -37,7 +37,8 @@ else
   GC_BIN=DD_nonperiodic
 endif
 
-all: $(TARGET) $(LIBOBJS) $(TARGETOBJS) $(TARGETSRC) $(ROOT_DIR)/theory.options $(ROOT_DIR)/common.mk Makefile
+all:
+  $(TARGET) $(LIBOBJS) $(TARGETOBJS) $(TARGETSRC) $(ROOT_DIR)/theory.options $(ROOT_DIR)/common.mk Makefile
   cp $(TARGET) $(GC_DIR)/$(GC_BIN)
 
 libs: lib
