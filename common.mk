@@ -51,7 +51,6 @@ ifeq ($(HNAME),login4.stampede2.tacc.utexas.edu)
 SYSTYPE="TACC2"
 endif
 
-
 ### You should NOT edit below this line
 DISTNAME:=Corrfunc
 MAJOR:=2
